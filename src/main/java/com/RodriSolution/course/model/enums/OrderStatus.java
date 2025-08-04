@@ -1,9 +1,27 @@
 package com.RodriSolution.course.model.enums;
 
 public enum OrderStatus {
-    WAITING_PAYMENT,
-    PAID,
-    SHIPPED,
-    DELIVERED,
-    CANCELLED,
+
+    WAITING_PAYMENT("Aguardando Pagamento"),
+    PAID("Pago"),
+    SHIPPED("Enviado"),
+    DELIVERED("Entregue"),
+    CANCELLED("Cancelado");
+
+    private String description;
+
+    OrderStatus(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+
+
+
+
+
+
 }
