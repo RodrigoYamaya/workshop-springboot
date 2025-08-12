@@ -72,10 +72,22 @@ public class Order {
         return client;
     }
 
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
     public void setClient(User client) {
         this.client = client;
     }
 
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
 
     public Double getTotalQuantity() {
         double total = 0;
