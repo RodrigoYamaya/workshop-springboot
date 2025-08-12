@@ -55,7 +55,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Dependência principal do MapStruct -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
