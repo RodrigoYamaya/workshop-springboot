@@ -81,6 +81,14 @@ public class Product {
         return categories;
     }
 
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Product product)) return false;
