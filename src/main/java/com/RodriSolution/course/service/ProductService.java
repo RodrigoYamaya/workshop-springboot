@@ -49,6 +49,9 @@ public class ProductService {
         Product productSave = productRepository.save(product);
         return productMapper.toDto(productSave);
 
+//        return productMapper.toDto(
+//                productRepository.save(
+//                        productMapper.toEntity(dto)));
     }
 
     @Transactional
