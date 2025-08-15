@@ -1,5 +1,6 @@
 package com.RodriSolution.course.controllers;
 
+import com.RodriSolution.course.model.dtos.CategoryResponseDto;
 import com.RodriSolution.course.model.entities.Category;
 import com.RodriSolution.course.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +18,15 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping("/category/lista")
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> list = categoryService.findAll();
+    public ResponseEntity<List<CategoryResponseDto>> findAll() {
+        List<CategoryResponseDto> list = categoryService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @GetMapping("/category/{id}")
-    public ResponseEntity<Category> findById(@PathVariable(value = "id") long id) {
-        Category category = categoryService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(category);
+    public ResponseEntity<CategoryResponseDto> findById(@PathVariable(value = "id") long id) {
+        CategoryResponseDto categoryResponseDto = categoryService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(categoryResponseDto);
     }
 
 }
