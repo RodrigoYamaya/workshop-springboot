@@ -26,8 +26,11 @@ public class ProductService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<ProductResponseDto> findAll() {
+        List<Product> products = productRepository.findAll();
+        return products.stream()
+                .map(productMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional

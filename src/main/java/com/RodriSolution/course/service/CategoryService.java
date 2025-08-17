@@ -2,6 +2,7 @@ package com.RodriSolution.course.service;
 
 import com.RodriSolution.course.exceptions.RecursoNaoEncontrado;
 import com.RodriSolution.course.mapper.CategoryMapper;
+import com.RodriSolution.course.model.dtos.CategoryRequestDto;
 import com.RodriSolution.course.model.dtos.CategoryResponseDto;
 import com.RodriSolution.course.model.entities.Category;
 import com.RodriSolution.course.repositories.CategoryRepository;
@@ -32,5 +33,19 @@ public class CategoryService {
         Category category =  categoryRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontrado("category  com ID" + id + "nao encontrado"));
         return categoryMapper.toDto(category);
+    }
+
+
+    public CategoryResponseDto save(CategoryRequestDto categoryRequestDto) {
+        Category category = categoryMapper.toEntity(categoryRequestDto);
+        Category categorySave = categoryRepository.save(category);
+        return categoryMapper.toDto(categorySave);
+    }
+
+    public void deletarCategory(long id) {
+        if(!categoryRepository.existsById(id)) {
+            throw new RecursoNaoEncontrado("category com o ID " + id + " não encontrado");
+        }
+        categoryRepository.deleteById(id);
     }
 }
