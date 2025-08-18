@@ -47,7 +47,7 @@ public class UserService {
         if(!userRepository.existsById(id)) {
             throw new RecursoNaoEncontrado("user com o ID " + id + " não encontrado");
         }
-        productRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     public UserResponseDto update(UserRequestDto userDto, Long id) {
@@ -57,7 +57,8 @@ public class UserService {
         user.setName(userDto.name());
         user.setEmail(userDto.email());
         user.setPassword(userDto.password());
-        return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
+        User userUpdate = userRepository.save(user);
+        return userMapper.toDto(userUpdate);
     }
 
 }
