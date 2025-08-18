@@ -10,7 +10,7 @@ public record ProductRequestDto(
         @NotNull @Positive Double price,
         @NotBlank String imgUrl,
         @NotEmpty(message = "O produto deve pertencer a pelo menos uma categoria")
-        Set<@Positive Long> categoriaIds
+        Set<@Positive Long> categoryIds
 
 ) {
 }

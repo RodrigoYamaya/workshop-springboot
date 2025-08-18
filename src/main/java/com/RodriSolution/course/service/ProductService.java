@@ -42,7 +42,7 @@ public class ProductService {
 
     @Transactional
     public ProductResponseDto save(ProductRequestDto dto) {
-        Set<Category> categories = dto.categoriaIds().stream()
+        Set<Category> categories = dto.categoryIds().stream()
                 .map(categoryId -> categoryRepository.findById(categoryId)
                         .orElseThrow(() -> new RecursoNaoEncontrado("Categoria com ID " + categoryId + " não encontrada.")))
                 .collect(Collectors.toSet());
@@ -83,8 +83,8 @@ public class ProductService {
         product.setPrice(dto.price());
         product.setImgUrl(dto.imgUrl());
 
-        if(dto.categoriaIds() != null && !dto.categoriaIds().isEmpty()) {
-            Set<Category> categories = dto.categoriaIds().stream()
+        if(dto.categoryIds() != null && !dto.categoryIds().isEmpty()) {
+            Set<Category> categories = dto.categoryIds().stream()
                     .map(categoryId -> categoryRepository.findById(categoryId)
                     .orElseThrow(() -> new RecursoNaoEncontrado("Categoria com ID " + categoryId + " não encontrada.")))
                     .collect(Collectors.toSet());
