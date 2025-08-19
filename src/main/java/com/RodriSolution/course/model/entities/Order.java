@@ -89,10 +89,10 @@ public class Order {
         this.payment = payment;
     }
 
-    public Double getTotalQuantity() {
-        double total = 0;
+    public Double getTotal() {
+        double total = 0.0;
         for (OrderItem item: items) {
-            total += item.getQuantity();
+            total += item.getSubTotal();
         }
         return total;
     }

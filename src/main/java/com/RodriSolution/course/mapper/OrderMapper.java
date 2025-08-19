@@ -16,6 +16,6 @@ public interface OrderMapper {
     @Mapping(target = "payment", ignore = true)
     Order toEntity(OrderRequestDto dto);
 
-    @Mapping(target = "total", ignore = true)
+
     OrderResponseDto toDto(Order entity);
 }

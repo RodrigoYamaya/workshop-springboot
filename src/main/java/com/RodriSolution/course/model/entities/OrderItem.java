@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "tb_order_item")
 public class OrderItem {
@@ -29,11 +31,8 @@ public class OrderItem {
     @Positive(message = "Preço deve ser maior que zero")
     private Double  price;
 
-    public OrderItem() {
-    }
 
-    public OrderItem(Long id, Order order, Product product, Integer quantity, Double price) {
-        this.id = id;
+    public OrderItem(Order order, Product product, Integer quantity, Double price) {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
@@ -68,9 +67,11 @@ public class OrderItem {
         this.price = price;
     }
 
-    public double subTotal(Integer quantity, Double price) {
-        return quantity * price;
-
+    public Double getSubTotal() {
+        if (price == null || quantity == null) {
+            return 0.0;
+        }
+        return price * quantity;
     }
 
     public Long getId() {
