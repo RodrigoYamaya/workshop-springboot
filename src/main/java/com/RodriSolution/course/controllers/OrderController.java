@@ -2,12 +2,9 @@ package com.RodriSolution.course.controllers;
 
 import com.RodriSolution.course.model.dtos.OrderRequestDto;
 import com.RodriSolution.course.model.dtos.OrderResponseDto;
-import com.RodriSolution.course.model.dtos.ProductRequestDto;
-import com.RodriSolution.course.model.dtos.ProductResponseDto;
 import com.RodriSolution.course.service.OrderService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.hibernate.annotations.Target;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

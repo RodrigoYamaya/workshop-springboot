@@ -57,6 +57,7 @@ public class UserService {
         user.setName(userDto.name());
         user.setEmail(userDto.email());
         user.setPassword(userDto.password());
+        user.setPhone(userDto.phone());
         User userUpdate = userRepository.save(user);
         return userMapper.toDto(userUpdate);
     }
