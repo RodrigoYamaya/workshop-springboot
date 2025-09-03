@@ -61,6 +61,8 @@ public class Payment {
         return Objects.equals(id, payment.id) && Objects.equals(moment, payment.moment) && Objects.equals(order, payment.order);
     }
 
+
+
     @Override
     public int hashCode() {
         return Objects.hash(id, moment, order);

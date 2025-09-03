@@ -24,7 +24,7 @@ public class User {
     private String password;
 
     @JsonIgnore
-    @OneToMany
+    @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
     public User() {

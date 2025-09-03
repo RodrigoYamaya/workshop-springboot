@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,7 +41,7 @@ public class OrderService {
 
     }
 
-    @Transactional
+
     public OrderResponseDto findById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(()-> new RecursoNaoEncontrado("Pedido com ID " + id + " não encontrado."));
@@ -47,6 +49,7 @@ public class OrderService {
 
     }
 
+    @Transactional
     public OrderResponseDto saveOrder(OrderRequestDto orderDto) {
         User client = userRepository.findById(orderDto.clientId())
                 .orElseThrow(() -> new RecursoNaoEncontrado("Cliente com ID " + orderDto.clientId() + " não encontrado."));
@@ -65,4 +68,30 @@ public class OrderService {
         Order saveOrder = orderRepository.save(order);
         return orderMapper.toDto(saveOrder);
     }
+
+
+    private static final Map<OrderStatus, Set<OrderStatus>> TRANSITIONS  = Map.of(
+            OrderStatus.WAITING_PAYMENT,Set.of(OrderStatus.PAID,OrderStatus.CANCELLED),
+            OrderStatus.PAID,Set.of(OrderStatus.SHIPPED),
+            OrderStatus.SHIPPED,Set.of(OrderStatus.DELIVERED),
+            OrderStatus.DELIVERED,Set.of(),
+            OrderStatus.CANCELLED,Set.of()
+    );
+
+    @Transactional
+    public OrderResponseDto updateStatus(Long id, OrderStatus newStatus ) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontrado("Pedido com ID " + id + " não encontrado."));
+
+        OrderStatus oldStatus = order.getOrderStatus();
+        Set<OrderStatus> validTransitions = TRANSITIONS.getOrDefault(oldStatus, Set.of());
+        if(!validTransitions.contains(newStatus)) {
+            throw new RecursoNaoEncontrado("Transição inválida de " + oldStatus + " para " + newStatus);
+        }
+        order.setOrderStatus(newStatus);
+        Order savedOrder = orderRepository.save(order);
+        return orderMapper.toDto(savedOrder);
+    }
+
+
 }

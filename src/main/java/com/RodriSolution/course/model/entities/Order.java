@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 
+
 @Entity
 @Table(name= "tb_Order")
 public class Order {
@@ -26,7 +27,7 @@ public class Order {
     @JoinColumn(name = "client_id")
     private User client;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<OrderItem> items = new HashSet<>();
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
@@ -97,6 +98,7 @@ public class Order {
         return total;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Order order)) return false;
@@ -108,3 +110,5 @@ public class Order {
         return Objects.hash(id, moment, orderStatus, client, items, payment);
     }
 }
+
+

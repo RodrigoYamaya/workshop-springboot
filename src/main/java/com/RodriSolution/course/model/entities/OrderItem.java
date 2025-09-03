@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+
 @Entity
 @Table(name = "tb_order_item")
 public class OrderItem {
@@ -31,6 +31,8 @@ public class OrderItem {
     @Positive(message = "Preço deve ser maior que zero")
     private Double  price;
 
+    public OrderItem() {
+    }
 
     public OrderItem(Order order, Product product, Integer quantity, Double price) {
         this.order = order;
