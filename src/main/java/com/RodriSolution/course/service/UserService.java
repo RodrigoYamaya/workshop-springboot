@@ -8,12 +8,16 @@ import com.RodriSolution.course.model.entities.User;
 import com.RodriSolution.course.repositories.ProductRepository;
 import com.RodriSolution.course.repositories.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
@@ -23,6 +27,7 @@ public class UserService {
     UserMapper userMapper;
     @Autowired
     private ProductRepository productRepository;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     public List<UserResponseDto> findAll() {
@@ -40,7 +45,10 @@ public class UserService {
     }
 
     public UserResponseDto save(UserRequestDto userRequestDto) {
-        return userMapper.toDto(userRepository.save(userMapper.toEntity(userRequestDto)));
+        User user = userMapper.toEntity(userRequestDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User savedUser = userRepository.save(user);
+        return userMapper.toDto(savedUser);
     }
 
     public void deletarUser(long id) {
@@ -56,10 +64,15 @@ public class UserService {
 
         user.setName(userDto.name());
         user.setEmail(userDto.email());
-        user.setPassword(userDto.password());
         user.setPhone(userDto.phone());
-        User userUpdate = userRepository.save(user);
-        return userMapper.toDto(userUpdate);
+
+        if (userDto.password() != null && !userDto.password().isBlank()) {
+            String encryptedPassword = passwordEncoder.encode(userDto.password());
+            user.setPassword(encryptedPassword);
+        }
+
+        User updatedUser = userRepository.save(user);
+        return userMapper.toDto(updatedUser);
     }
 
 }
