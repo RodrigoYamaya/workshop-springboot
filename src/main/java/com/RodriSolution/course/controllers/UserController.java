@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @Transactional
-    @PostMapping("/users")
+    @PostMapping("/user/save")
     public ResponseEntity<UserResponseDto> save(@RequestBody @Valid UserRequestDto userDto) {
         UserResponseDto userSave = userService.save(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userSave);
