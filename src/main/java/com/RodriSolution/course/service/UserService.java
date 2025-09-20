@@ -5,6 +5,7 @@ import com.RodriSolution.course.mapper.UserMapper;
 import com.RodriSolution.course.model.dtos.UserRequestDto;
 import com.RodriSolution.course.model.dtos.UserResponseDto;
 import com.RodriSolution.course.model.entities.User;
+import com.RodriSolution.course.model.enums.UserRole;
 import com.RodriSolution.course.repositories.ProductRepository;
 import com.RodriSolution.course.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -21,12 +22,9 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    UserMapper userMapper;
-    @Autowired
-    private ProductRepository productRepository;
+
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
@@ -47,6 +45,7 @@ public class UserService {
     public UserResponseDto save(UserRequestDto userRequestDto) {
         User user = userMapper.toEntity(userRequestDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setUserRole(UserRole.USER);
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
     }
@@ -76,3 +75,5 @@ public class UserService {
     }
 
 }
+
+
