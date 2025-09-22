@@ -5,19 +5,23 @@ import com.RodriSolution.course.model.dtos.auth.LoginResponseDto;
 import com.RodriSolution.course.model.entities.User;
 import com.RodriSolution.course.repositories.UserRepository;
 import com.RodriSolution.course.security.JwtService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
-@RequiredArgsConstructor
 @Service
 public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+    }
 
     public LoginResponseDto login(LoginRequestDto dto) {
         User user = userRepository.findByEmail(dto.email())
@@ -35,5 +39,9 @@ public class AuthService {
         Instant expiresAt = jwtService.generateExpirationDate();
 
         return new LoginResponseDto(token, user.getUserRole().name(), expiresAt);
+
+        //continua amanha caso termine o teste.
+        // finalizar JwtAuthenticationFilter.
+        // finalzar endPoint controller authController
     }
 }

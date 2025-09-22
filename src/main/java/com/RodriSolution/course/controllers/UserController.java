@@ -11,11 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 public class UserController {
+
     @Autowired
-    UserService userService = new UserService();
+    private UserService userService;
 
     @GetMapping("/user/lista")
     public ResponseEntity<List<UserResponseDto>> findAll() {

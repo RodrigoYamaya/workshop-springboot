@@ -6,27 +6,27 @@ import com.RodriSolution.course.model.dtos.UserRequestDto;
 import com.RodriSolution.course.model.dtos.UserResponseDto;
 import com.RodriSolution.course.model.entities.User;
 import com.RodriSolution.course.model.enums.UserRole;
-import com.RodriSolution.course.repositories.ProductRepository;
 import com.RodriSolution.course.repositories.UserRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
 public class UserService {
 
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
 
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public List<UserResponseDto> findAll() {
         List<User> users = userRepository.findAll();

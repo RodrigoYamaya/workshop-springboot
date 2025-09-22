@@ -68,8 +68,4 @@ public class JwtService {
         return LocalDateTime.now().plusMinutes(expirationMinutes).toInstant(ZoneOffset.of("-03:00"));
     }
 
-    
-
-
-
 }
