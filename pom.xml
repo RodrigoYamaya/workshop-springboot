@@ -111,8 +111,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
+					<source>21</source>
+					<target>21</target>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.mapstruct</groupId>
@@ -120,7 +120,8 @@
 							<version>${org.mapstruct.version}</version>
 						</path>
 					</annotationProcessorPaths>
-				</configuration>
+                    <compilerArgs>--enable-preview</compilerArgs>
+                </configuration>
 			</plugin>
 		</plugins>
 	</build>
