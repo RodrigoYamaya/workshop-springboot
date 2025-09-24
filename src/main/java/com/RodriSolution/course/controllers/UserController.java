@@ -12,18 +12,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user/lista")
+    @GetMapping("/findAll")
     public ResponseEntity<List<UserResponseDto>> findAll() {
         List<UserResponseDto> users = userService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> findById(@PathVariable(value = "id") long id) {
         UserResponseDto userResponseDto = userService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
@@ -31,14 +32,14 @@ public class UserController {
     }
 
     @Transactional
-    @PostMapping("/user/save")
+    @PostMapping("/save")
     public ResponseEntity<UserResponseDto> save(@RequestBody @Valid UserRequestDto userDto) {
         UserResponseDto userSave = userService.save(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userSave);
     }
 
     @Transactional
-    @DeleteMapping("user/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") long id) {
         userService.deletarUser(id);
         return ResponseEntity.status(HttpStatus.OK).body("user com o ID " + id + " deletado com sucesso.");
