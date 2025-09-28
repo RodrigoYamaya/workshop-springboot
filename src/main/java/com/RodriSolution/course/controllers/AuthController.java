@@ -2,10 +2,12 @@ package com.RodriSolution.course.controllers;
 
 import com.RodriSolution.course.model.dtos.auth.LoginRequestDto;
 import com.RodriSolution.course.model.dtos.auth.LoginResponseDto;
+import com.RodriSolution.course.security.SecurityConfig;
 import com.RodriSolution.course.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
