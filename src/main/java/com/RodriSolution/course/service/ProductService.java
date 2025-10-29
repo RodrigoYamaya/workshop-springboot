@@ -1,7 +1,8 @@
 package com.RodriSolution.course.service;
 
-import com.RodriSolution.course.exceptions.RecursoNaoEncontrado;
+import com.RodriSolution.course.exceptions.BadRequestException;
 
+import com.RodriSolution.course.exceptions.RecursoNaoEncontradoException;
 import com.RodriSolution.course.mapper.ProductMapper;
 import com.RodriSolution.course.model.dtos.ProductRequestDto;
 import com.RodriSolution.course.model.dtos.ProductResponseDto;
@@ -36,7 +37,7 @@ public class ProductService {
     @Transactional
     public ProductResponseDto findById(Long id) {
         Product product =  productRepository.findById(id)
-                .orElseThrow(()-> new RecursoNaoEncontrado("product com ID " + id + " não encontrado."));
+                .orElseThrow(()-> new RecursoNaoEncontradoException("product com ID " + id + " não encontrado."));
         return productMapper.toDto(product);
     }
 
@@ -44,7 +45,7 @@ public class ProductService {
     public ProductResponseDto save(ProductRequestDto dto) {
         Set<Category> categories = dto.categoryIds().stream()
                 .map(categoryId -> categoryRepository.findById(categoryId)
-                        .orElseThrow(() -> new RecursoNaoEncontrado("Categoria com ID " + categoryId + " não encontrada.")))
+                        .orElseThrow(() -> new RecursoNaoEncontradoException("Categoria com ID " + categoryId + " não encontrada.")))
                 .collect(Collectors.toSet());
 
         Product product = productMapper.toEntity(dto);
@@ -60,7 +61,7 @@ public class ProductService {
     @Transactional
     public void deletarProduct(long id) {
         if(!productRepository.existsById(id)) {
-            throw new RecursoNaoEncontrado("Pet com o ID " + id + " não encontrado");
+            throw new RecursoNaoEncontradoException("Pet com o ID " + id + " não encontrado");
         }
         productRepository.deleteById(id);
     }
@@ -68,7 +69,7 @@ public class ProductService {
     @Transactional
     public ProductResponseDto updateProduct(ProductRequestDto dto, Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontrado("product com ID " + id + " não encontrado."));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("product com ID " + id + " não encontrado."));
 
         updateData(dto,product);
         Product productSave= productRepository.save(product);
@@ -86,7 +87,7 @@ public class ProductService {
         if(dto.categoryIds() != null && !dto.categoryIds().isEmpty()) {
             Set<Category> categories = dto.categoryIds().stream()
                     .map(categoryId -> categoryRepository.findById(categoryId)
-                    .orElseThrow(() -> new RecursoNaoEncontrado("Categoria com ID " + categoryId + " não encontrada.")))
+                    .orElseThrow(() -> new RecursoNaoEncontradoException("Categoria com ID " + categoryId + " não encontrada.")))
                     .collect(Collectors.toSet());
             product.setCategories(categories);
         }

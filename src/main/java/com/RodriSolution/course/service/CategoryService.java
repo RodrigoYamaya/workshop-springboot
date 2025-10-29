@@ -1,6 +1,7 @@
 package com.RodriSolution.course.service;
 
-import com.RodriSolution.course.exceptions.RecursoNaoEncontrado;
+import com.RodriSolution.course.exceptions.BadRequestException;
+import com.RodriSolution.course.exceptions.RecursoNaoEncontradoException;
 import com.RodriSolution.course.mapper.CategoryMapper;
 import com.RodriSolution.course.model.dtos.CategoryRequestDto;
 import com.RodriSolution.course.model.dtos.CategoryResponseDto;
@@ -31,7 +32,7 @@ public class CategoryService {
     @Transactional
     public CategoryResponseDto findById(long id) {
         Category category =  categoryRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontrado("category  com ID" + id + "nao encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("category  com ID" + id + "nao encontrado"));
         return categoryMapper.toDto(category);
     }
 
@@ -44,7 +45,7 @@ public class CategoryService {
 
     public void deletarCategory(long id) {
         if(!categoryRepository.existsById(id)) {
-            throw new RecursoNaoEncontrado("category com o ID " + id + " não encontrado");
+            throw new RecursoNaoEncontradoException("category com o ID " + id + " não encontrado");
         }
         categoryRepository.deleteById(id);
     }

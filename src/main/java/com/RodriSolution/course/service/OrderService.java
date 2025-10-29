@@ -1,6 +1,7 @@
 package com.RodriSolution.course.service;
 
-import com.RodriSolution.course.exceptions.RecursoNaoEncontrado;
+import com.RodriSolution.course.exceptions.BadRequestException;
+import com.RodriSolution.course.exceptions.RecursoNaoEncontradoException;
 import com.RodriSolution.course.mapper.OrderMapper;
 import com.RodriSolution.course.model.dtos.OrderRequestDto;
 import com.RodriSolution.course.model.dtos.OrderResponseDto;
@@ -44,7 +45,7 @@ public class OrderService {
 
     public OrderResponseDto findById(Long id) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(()-> new RecursoNaoEncontrado("Pedido com ID " + id + " não encontrado."));
+                .orElseThrow(()-> new RecursoNaoEncontradoException("Pedido com ID " + id + " não encontrado."));
         return orderMapper.toDto(order);
 
     }
@@ -52,7 +53,7 @@ public class OrderService {
     @Transactional
     public OrderResponseDto saveOrder(OrderRequestDto orderDto) {
         User client = userRepository.findById(orderDto.clientId())
-                .orElseThrow(() -> new RecursoNaoEncontrado("Cliente com ID " + orderDto.clientId() + " não encontrado."));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Cliente com ID " + orderDto.clientId() + " não encontrado."));
 
         Order order = new Order();
         order.setClient(client);
@@ -61,7 +62,7 @@ public class OrderService {
 
         orderDto.items().forEach(itemDto ->  {
             Product product = productRepository.findById(itemDto.productId())
-                    .orElseThrow(() -> new RecursoNaoEncontrado("..."));
+                    .orElseThrow(() -> new BadRequestException("..."));
             OrderItem orderItem = new OrderItem(order, product, itemDto.quantity(), product.getPrice());
             order.getItems().add(orderItem);
         });
@@ -81,12 +82,12 @@ public class OrderService {
     @Transactional
     public OrderResponseDto updateStatus(Long id, OrderStatus newStatus ) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontrado("Pedido com ID " + id + " não encontrado."));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Pedido com ID " + id + " não encontrado."));
 
         OrderStatus oldStatus = order.getOrderStatus();
         Set<OrderStatus> validTransitions = TRANSITIONS.getOrDefault(oldStatus, Set.of());
         if(!validTransitions.contains(newStatus)) {
-            throw new RecursoNaoEncontrado("Transição inválida de " + oldStatus + " para " + newStatus);
+            throw new BadRequestException("Transição inválida de " + oldStatus + " para " + newStatus);
         }
         order.setOrderStatus(newStatus);
         Order savedOrder = orderRepository.save(order);
