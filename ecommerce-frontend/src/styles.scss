@@ -1,0 +1,74 @@
+
+:root {
+  --primary: #020617;
+  --primary-light: #1e293b;
+  --accent: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.5);
+  --surface: #ffffff;
+  --surface-secondary: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --success: #10b981;
+  --danger: #ef4444;
+
+  --glass: rgba(255, 255, 255, 0.7);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--surface-secondary);
+  color: var(--text-main);
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .brand { font-family: 'Outfit', sans-serif; }
+button { font-family: 'Inter', sans-serif; }
+
+
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 2rem max(2rem, 5%);
+  flex: 1;
+}
+
+.btn-primary {
+  background: var(--accent); color: white; padding: 1rem 2.5rem; border-radius: 50px;
+  font-weight: 600; border: none; cursor: pointer; transition: 0.3s;
+  box-shadow: 0 4px 15px var(--accent-glow);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--accent-glow); }
+
+.btn-full {
+  width: 100%; padding: 1rem; background: var(--primary); color: white;
+  border: none; border-radius: 10px; font-weight: 600; cursor: pointer;
+}
+
+.auth-input {
+  width: 100%; padding: 1rem; margin-bottom: 1rem; border-radius: 10px;
+  border: 1px solid var(--border); font-family: inherit;
+}
+
+.section-header { display: flex; justify-content: space-between; align-items: end; margin-bottom: 2.5rem; }
+.section-title { font-size: 2rem; color: var(--primary); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+.view-section { animation: fadeUp 0.4s ease-out; }
+
+.toast {
+  position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: white;
+  padding: 1rem 1.5rem; border-radius: 12px; display: flex; align-items: center; gap: 12px;
+  transform: translateY(150%); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 2000;
+}
+.toast.show { transform: translateY(0); }
